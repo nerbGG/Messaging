@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import Message from "./Message";
 import ReactDOM from 'react-dom';
 
-
 const getMessages=()=>{
    const messages  = [
         {
@@ -70,6 +69,12 @@ const getMessages=()=>{
             author:"Krishna",
             to:"Nel",
             sent:false,
+        },
+        {
+            text:"one more for good measure, one more for good measure, one more for good measure, one more for good measure, one more for good measure",
+            author:"Nel",
+            to:"Krishna",
+            sent:true,
         },
     ]
     return messages;
