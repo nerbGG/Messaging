@@ -17,7 +17,7 @@ const Messages=()=>{
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [prevValue, setPrevValue] = useState(null);
-    const [firstTimeloaded, setfirsttimeLoaded] = useState(false);
+    const [newMessage, setNewMessage] = useState(false);
     const messagesContainer = []
     // both fetchmessages functions work
     const fetchMessages = ()=> {
@@ -25,12 +25,20 @@ const Messages=()=>{
         axios.get(url)
             .then(response=>{
                 // console.log(response.data);
+                setPrevValue(messages.length);
                 setMessages(response.data);
-                setPrevValue(loading);
-                setLoading(false);
-                if(prevValue != loading){
-                    setfirsttimeLoaded(true);
+                console.log(messages);
+                if(prevValue !== messages.length){
+                    setNewMessage(true);
                 }
+                else{
+                    setNewMessage(false);
+                }
+                // setPrevValue(loading);
+                setLoading(false);
+                // if(prevValue !== loading){
+                //     setfirsttimeLoaded(true);
+                // }
                 // scrolltoBottom();
             })
             .catch(err=>{console.log(err)});
@@ -62,19 +70,20 @@ const Messages=()=>{
     // }
     useEffect(()=>{
         // scrolltoBottom();
-        const interval = setInterval(function() {
+        // const interval = setInterval(function() {
             fetchMessages();
-        }, 2000);
+        // }, 2000);
         
-        if(firstTimeloaded){
+        if(newMessage){
             scrolltoBottom();
         }
-        // console.log("hello")
-        //  clearInterval(interval);
-    },[firstTimeloaded]);
-    // with empty brackets, the use effect will run only after it mounts the first time, 
-    //but qif we add a state, it call useeffect everytime that state changes
-    // console.log(messages);
+        //console.log("hello")
+        //clearInterval(interval);
+    // },[]);
+    });
+    /* with empty brackets, the use effect will run only after it mounts the first time, 
+        but if we add a state, it call useeffect everytime that state changes
+        console.log(messages);*/
     if(!loading){
         messages.forEach(message => {
             messagesContainer.push(<Message author={message.author} text={message.text} sent={current_user.id === message.author.id ? true : false} /> );
@@ -83,7 +92,7 @@ const Messages=()=>{
     
     return (
         <div className="border p-1" style={{height:'90%', overflowY:'scroll', overflowX:'hidden'}}>     
-            {loading && (<h5>Getting Messages...</h5>)}
+            {loading && (<h5>Fetching Messages...</h5>)}
             {!loading && messagesContainer}
             {/* empty div used to keep the lastest message in view when opening app*/}
            <div id="focus"></div>
