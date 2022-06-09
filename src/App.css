@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   overflow: auto;
+  /* vh stands for viewport height */
   height: 100vh;
   min-width: 360px;
 }
